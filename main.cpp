@@ -3,7 +3,26 @@
 int main(int argc, char *argv[]) {
   gst_init(&argc, &argv);
 
-  GstElement *pipeline = gst_parse_launch("videotestsrc ! autovideosink", nullptr);
+  // Hello World
+  // GstElement *pipeline = gst_parse_launch("videotestsrc ! autovideosink", nullptr);
+
+  // H.264 (AVC)
+  // GstElement *pipeline = gst_parse_launch("videotestsrc num-buffers=150 ! videoconvert ! openh264enc ! h264parse ! mp4mux ! filesink location=output.mp4", nullptr);
+
+  // H.265 (HEVC) - ERROR! x265enc is not found
+  // GstElement *pipeline = gst_parse_launch("videotestsrc num-buffers=150 ! videoconvert ! x265enc ! h265parse ! mp4mux ! filesink location=output_h265.mp4", nullptr);
+
+  // H.265 (HEVC) - nvh265enc
+  // GstElement *pipeline = gst_parse_launch("videotestsrc num-buffers=150 ! videoconvert ! nvh265enc ! h265parse ! mp4mux ! filesink location=output.mp4", nullptr);
+
+  // Rust Plugin - SUCCESS
+  // isomp4mux
+  // GstElement *pipeline = gst_parse_launch("videotestsrc num-buffers=150 ! videoconvert ! nvh265enc ! h265parse ! isomp4mux ! filesink location=output.mp4", nullptr);
+
+  // Uncompressed
+  // GstElement *pipeline = gst_parse_launch("videotestsrc num-buffers=60 ! videoconvert ! video/x-raw,format=I420 ! qtmux ! filesink location=output.mov", nullptr);
+  GstElement *pipeline = gst_parse_launch("videotestsrc num-buffers=34 ! video/x-raw,format=I420,width=640,height=480 ! isomp4mux ! filesink location=unc.mp4", nullptr);
+
   gst_element_set_state(pipeline, GST_STATE_PLAYING);
 
   GstBus *bus = gst_element_get_bus(pipeline);
