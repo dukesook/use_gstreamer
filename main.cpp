@@ -1,4 +1,5 @@
 #include <gst/gst.h>
+#include <iostream>
 
 void run_pipeline_example() {
   // Hello World
@@ -34,6 +35,8 @@ void run_pipeline_example() {
   gst_object_unref(pipeline);
 }
 
+const char *filename = "out/unc_timescale.mp4";
+
 int main(int argc, char *argv[]) {
   gst_init(&argc, &argv);
 
@@ -51,7 +54,8 @@ int main(int argc, char *argv[]) {
 
   // Set element properties
   g_object_set(src, "num-buffers", 34, NULL);
-  g_object_set(sink, "location", "out/unc_programatically.mp4", NULL);
+  g_object_set(sink, "location", filename, NULL);
+  g_object_set(mux, "movie-timescale", 17, NULL);
 
   // Set caps (format=I420, width=640, height=480)
   GstCaps *caps = gst_caps_new_simple(
@@ -82,5 +86,6 @@ int main(int argc, char *argv[]) {
   gst_element_set_state(pipeline, GST_STATE_NULL);
   gst_object_unref(pipeline);
 
+  printf("Created: %s\n", filename);
   return 0;
 }
