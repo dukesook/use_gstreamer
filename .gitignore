@@ -1,5 +1,7 @@
 build/
 
+temp.cpp
+
 # Prerequisites
 *.d
 
